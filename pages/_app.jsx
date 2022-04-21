@@ -1,0 +1,65 @@
+import "../styles/globals.css";
+import { useState, useEffect } from "react";
+import { Navbar } from "../components/Navbar";
+
+function MyApp({ Component, pageProps }) {
+  const [liffObject, setLiffObject] = useState(null);
+  const [liffError, setLiffError] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [loaded, setLoaded] = useState(null);
+
+  // Execute liff.init() when the app is initialized
+  useEffect(() => {
+    // to avoid `window is not defined` error
+    import("@line/liff").then((liff) => {
+      console.log("start liff.init()...");
+      liff
+        .init({ liffId: process.env.LIFF_ID })
+        .then(() => {
+          console.log("liff.init() done");
+          setLiffObject(liff);
+          liff
+            .getProfile()
+            .then((profile) => {
+              // const name = profile.displayName;
+              setProfile(profile);
+            })
+            .catch((err) => {
+              // console.log("error", err);
+              setProfile(
+                JSON.parse(
+                  '{"userId":"Uf371e1f096b77a290a586216c462155f","displayName":"woyiswoy","statusMessage":"คนอย่างเทอมันแน่ มันแน่ตลอด","pictureUrl":"https://profile.line-scdn.net/0hL1CjaRuwEx5uEwdyKv1tYR5DEHRNYkoMF3deKlkVTi5bJwZMR3ReKwkRTStbIwYfRCcPKAhDSiZiAGR4cEXvKmkjTSlXJFxNQXRe-w"}'
+                )
+              );
+            })
+            .then(() => setLoaded(true));
+        })
+        .catch((error) => {
+          console.log(`liff.init() failed: ${error}`);
+          if (!process.env.liffId) {
+            console.info(
+              "LIFF Starter: Please make sure that you provided `LIFF_ID` as an environmental variable."
+            );
+          }
+          setLiffError(error.toString());
+        });
+    });
+  }, []);
+
+  pageProps.liff = liffObject;
+  pageProps.liffError = liffError;
+  pageProps.profile = profile;
+  pageProps.loaded = loaded;
+
+  return (
+    <div
+      className="transition duration-300 min-h-screen container mx-auto space-y-7 font-Kodchasan"
+      data-theme="pastel"
+    >
+      <Navbar {...pageProps}></Navbar>
+      <Component {...pageProps} />
+    </div>
+  );
+}
+
+export default MyApp;
