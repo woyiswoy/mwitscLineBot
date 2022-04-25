@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import { useState, useEffect } from "react";
 import { Navbar } from "../components/Navbar";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
   const [liffObject, setLiffObject] = useState(null);
@@ -25,12 +26,12 @@ function MyApp({ Component, pageProps }) {
               setProfile(profile);
             })
             .catch((err) => {
-              // console.log("error", err);
-              setProfile(
-                JSON.parse(
-                  '{"userId":"Uf371e1f096b77a290a586216c462155f","displayName":"woyiswoy","statusMessage":"คนอย่างเทอมันแน่ มันแน่ตลอด","pictureUrl":"https://profile.line-scdn.net/0hL1CjaRuwEx5uEwdyKv1tYR5DEHRNYkoMF3deKlkVTi5bJwZMR3ReKwkRTStbIwYfRCcPKAhDSiZiAGR4cEXvKmkjTSlXJFxNQXRe-w"}'
-                )
-              );
+              console.log("error", err);
+              // setProfile(
+              //   JSON.parse(
+              //     '{"userId":"Uf371e1f096b77a290a586216c462155f","displayName":"woyiswoy","statusMessage":"คนอย่างเทอมันแน่ มันแน่ตลอด","pictureUrl":"https://profile.line-scdn.net/0hL1CjaRuwEx5uEwdyKv1tYR5DEHRNYkoMF3deKlkVTi5bJwZMR3ReKwkRTStbIwYfRCcPKAhDSiZiAGR4cEXvKmkjTSlXJFxNQXRe-w"}'
+              //   )
+              // );
             })
             .then(() => setLoaded(true));
         })
@@ -52,13 +53,20 @@ function MyApp({ Component, pageProps }) {
   pageProps.loaded = loaded;
 
   return (
-    <div
-      className="transition duration-300 min-h-screen container mx-auto space-y-7 font-Kodchasan"
-      data-theme="pastel"
-    >
-      <Navbar {...pageProps}></Navbar>
-      <Component {...pageProps} />
-    </div>
+    <>
+      <Head>
+        <title>MWIT SC</title>
+        <meta name="description" content="MWIT SC Line Bot Web App" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div
+        className="transition duration-300 min-h-screen container mx-auto space-y-7 font-Kodchasan"
+        data-theme="pastel"
+      >
+        <Navbar {...pageProps}></Navbar>
+        <Component {...pageProps} />
+      </div>
+    </>
   );
 }
 
