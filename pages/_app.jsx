@@ -26,14 +26,43 @@ function MyApp({ Component, pageProps }) {
             .then((profile) => {
               // const name = profile.displayName;
               setProfile(profile);
+              fetch("/api/refresh", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ userId: profile.userId }),
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  setUserData(data.userData);
+                })
+                .catch((err) => {
+                  setUserData(false);
+                })
+                .then(() => setUserLoaded(true));
             })
             .catch((err) => {
               console.log("error", err);
-              // setProfile(
-              //   JSON.parse(
-              //     '{"userId":"Uf371e1f096b77a290a586216c462155f","displayName":"woyiswoy","statusMessage":"คนอย่างเทอมันแน่ มันแน่ตลอด","pictureUrl":"https://profile.line-scdn.net/0hL1CjaRuwEx5uEwdyKv1tYR5DEHRNYkoMF3deKlkVTi5bJwZMR3ReKwkRTStbIwYfRCcPKAhDSiZiAGR4cEXvKmkjTSlXJFxNQXRe-w"}'
-              //   )
+              // const profile = JSON.parse(
+              //   '{"userId":"Uf371e1f096b77a290a586216c462155f","displayName":"woyiswoy","statusMessage":"คนอย่างเทอมันแน่ มันแน่ตลอด","pictureUrl":"https://profile.line-scdn.net/0hL1CjaRuwEx5uEwdyKv1tYR5DEHRNYkoMF3deKlkVTi5bJwZMR3ReKwkRTStbIwYfRCcPKAhDSiZiAGR4cEXvKmkjTSlXJFxNQXRe-w"}'
               // );
+              // setProfile(profile);
+              // fetch("/api/refresh", {
+              //   method: "POST",
+              //   headers: {
+              //     "Content-Type": "application/json",
+              //   },
+              //   body: JSON.stringify({ userId: profile.userId }),
+              // })
+              //   .then((response) => response.json())
+              //   .then((data) => {
+              //     setUserData(data.userData);
+              //   })
+              //   .catch((err) => {
+              //     setUserData(false);
+              //   })
+              //   .then(() => setUserLoaded(true));
             })
             .then(() => setLoaded(true));
         })
@@ -47,18 +76,6 @@ function MyApp({ Component, pageProps }) {
           setLiffError(error.toString());
         });
     });
-
-    fetch("/api/refresh", {
-      method: "POST",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setUserData(data.userData);
-      })
-      .catch((err) => {
-        setUserData(false);
-      })
-      .then(() => setUserLoaded(true));
   }, []);
 
   pageProps.liff = liffObject;

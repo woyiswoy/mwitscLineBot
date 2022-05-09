@@ -8,7 +8,7 @@ export default async function login(req, res) {
 
         const client = await clientPromise;
         const collection = client.db('mwitsc').collection("studentData");
-        const session = uuidv1();
+        // const session = uuidv1();
         collection.findOneAndUpdate({
             id: req.body.studentid,
             $or: [
@@ -16,16 +16,16 @@ export default async function login(req, res) {
                 { line: null },
                 { line: req.body.profile.userId }
             ],
-        }, { $set: { line: req.body.profile.userId, linePf: req.body.profile, session } }, (err, resp) => {
+        }, { $set: { line: req.body.profile.userId, linePf: req.body.profile } }, (err, resp) => {
             // console.log('err', err);
             // console.log('res', resp);
             if (resp.value) {
-                res.setHeader('Set-Cookie', cookie.serialize('session', session, {
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV !== 'development',
-                    sameSite: 'strict',
-                    path: '/'
-                }));
+                // res.setHeader('Set-Cookie', cookie.serialize('session', session, {
+                //     httpOnly: true,
+                //     secure: process.env.NODE_ENV !== 'development',
+                //     sameSite: 'strict',
+                //     path: '/'
+                // }));
                 res.status(200).json({ ok: true });
             } else {
                 collection.findOne({ id: req.body.studentid }, (ferr, fres) => {
