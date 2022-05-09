@@ -12,7 +12,7 @@ const loginSchema = yup
   })
   .required();
 
-export default function Home({ profile, loaded }) {
+export default function Home({ profile, loaded, userData, userLoaded }) {
   const router = useRouter();
   const [loginError, setLoginError] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
@@ -25,29 +25,33 @@ export default function Home({ profile, loaded }) {
     resolver: yupResolver(loginSchema),
   });
   const onSubmit = async (data) => {
-    const resp = await fetch("http://localhost:3000/api/login", {
+    data.profile = profile;
+    const resp = await fetch("/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     })
-      .then((response) => {
-        if (response.ok) {
+      .then((response) => response.json())
+      .then((resData) => {
+        if (resData.ok) {
+          setLoginError(null);
           setLoginSuccess(true);
           router.reload(window.location.pathname);
         } else {
-          setLoginError(true);
+          setLoginError(resData.message);
         }
       })
       .catch((err) => {
         console.log(err);
       });
+    // console.log(data);
   };
 
   return (
     <div className="px-8">
-      {loaded && profile ? (
+      {loaded && userLoaded && profile ? (
         <div className="space-y-2">
           <div className="items-center text-center rounded-lg">
             <div className="ds-avatar">
@@ -58,28 +62,76 @@ export default function Home({ profile, loaded }) {
             <h2 className=" text-base-content text-xl font-bold p-2">
               {profile.displayName}
             </h2>
+            {userData ? (
+              <div className="ds-badge ds-badge-success space-x-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>ลงทะเบียนแล้ว</span>
+              </div>
+            ) : (
+              <div className="ds-badge ds-badge-warning space-x-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>กรุณาลงทะเบียนเพื่อเริ่มใช้งาน</span>
+              </div>
+            )}
           </div>
-          <p>ขณะนี้กำลังอยู่ระหว่างการทดสอบระบบ</p>
           <div className="ds-card-actions justify-end space-y-1">
-            <label
-              id="rigist"
-              className="ds-btn ds-btn-primary ds-btn-block gap-1"
-              htmlFor="regist-modal"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+            {userData ? (
+              <div className="ds-card ds-card-compact w-full bg-base-100 border-2 border-primary">
+                <div className="ds-card-body">
+                  <h2 className="ds-card-title">ข้อมูลของคุณ</h2>
+                  <p>
+                    {userData.firstname + " " + userData.lastname} ชั้น{" "}
+                    {(36 - userData.gen).toString() + "/" + userData.room}{" "}
+                    เลขที่ {userData.number}
+                  </p>
+                  {/* <div className="ds-card-actions justify-end">
+                  <button className="ds-btn ds-btn-primary">Buy Now</button>
+                </div> */}
+                </div>
+              </div>
+            ) : (
+              <label
+                id="rigist"
+                className="ds-btn ds-btn-primary ds-btn-block gap-1"
+                htmlFor="regist-modal"
               >
-                <path
-                  fillRule="evenodd"
-                  d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="text-lg">ลงทะเบียนใช้งาน</span>
-            </label>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="text-lg">ลงทะเบียนใช้งาน</span>
+              </label>
+            )}
             <button
               id="rigist"
               className="ds-btn ds-btn-secondary ds-btn-block gap-2"
@@ -185,10 +237,7 @@ export default function Home({ profile, loaded }) {
                             d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                           />
                         </svg>
-                        <span>
-                          เกิดข้อผิดพลาด! กรุณาตรวจสอบข้อมูลอีกครั้ง
-                          หรือรายงานปัญหาการใช้งาน
-                        </span>
+                        <span>{loginError}</span>
                       </div>
                     </div>
                   </>
