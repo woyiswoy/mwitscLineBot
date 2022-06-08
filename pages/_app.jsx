@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
   const [liffError, setLiffError] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loaded, setLoaded] = useState(null);
-  const [userLoaded, setUserLoaded] = useState(null);
+  // const [userLoaded, setUserLoaded] = useState(null);
   const [userData, setUserData] = useState(null);
 
   // Execute liff.init() when the app is initialized
@@ -26,21 +26,7 @@ function MyApp({ Component, pageProps }) {
             .then((profile) => {
               // const name = profile.displayName;
               setProfile(profile);
-              fetch("/api/refresh", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ userId: profile.userId }),
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  setUserData(data.userData);
-                })
-                .catch((err) => {
-                  setUserData(false);
-                })
-                .then(() => setUserLoaded(true));
+              return profile;
             })
             .catch((err) => {
               console.log("error", err);
@@ -48,21 +34,21 @@ function MyApp({ Component, pageProps }) {
               //   '{"userId":"Uf371e1f096b77a290a586216c462155f","displayName":"woyiswoy","statusMessage":"คนอย่างเทอมันแน่ มันแน่ตลอด","pictureUrl":"https://profile.line-scdn.net/0hL1CjaRuwEx5uEwdyKv1tYR5DEHRNYkoMF3deKlkVTi5bJwZMR3ReKwkRTStbIwYfRCcPKAhDSiZiAGR4cEXvKmkjTSlXJFxNQXRe-w"}'
               // );
               // setProfile(profile);
-              // fetch("/api/refresh", {
-              //   method: "POST",
-              //   headers: {
-              //     "Content-Type": "application/json",
-              //   },
-              //   body: JSON.stringify({ userId: profile.userId }),
-              // })
-              //   .then((response) => response.json())
-              //   .then((data) => {
-              //     setUserData(data.userData);
-              //   })
-              //   .catch((err) => {
-              //     setUserData(false);
-              //   })
-              //   .then(() => setUserLoaded(true));
+              return profile;
+            })
+            .then((profile) => {
+              return fetch("/api/refresh", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ userId: profile.userId }),
+              });
+            })
+            .then((response) => response.json())
+            .then((data) => setUserData(data.userData))
+            .catch((err) => {
+              setUserData(false);
             })
             .then(() => setLoaded(true));
         })
@@ -82,7 +68,7 @@ function MyApp({ Component, pageProps }) {
   pageProps.liffError = liffError;
   pageProps.profile = profile;
   pageProps.loaded = loaded;
-  pageProps.userLoaded = userLoaded;
+  // pageProps.userLoaded = userLoaded;
   pageProps.userData = userData;
 
   return (

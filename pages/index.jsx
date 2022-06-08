@@ -12,7 +12,7 @@ const loginSchema = yup
   })
   .required();
 
-export default function Home({ profile, loaded, userData, userLoaded }) {
+export default function Home({ liff, profile, loaded, userData }) {
   const router = useRouter();
   const [loginError, setLoginError] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
@@ -51,7 +51,7 @@ export default function Home({ profile, loaded, userData, userLoaded }) {
 
   return (
     <div className="px-8">
-      {loaded && userLoaded && profile ? (
+      {loaded && profile ? (
         <div className="space-y-2">
           <div className="items-center text-center rounded-lg">
             <div className="ds-avatar">
@@ -135,6 +135,8 @@ export default function Home({ profile, loaded, userData, userLoaded }) {
             <button
               id="rigist"
               className="ds-btn ds-btn-secondary ds-btn-block gap-2"
+              onClick={() => router.push("/report")}
+              disabled
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -153,6 +155,7 @@ export default function Home({ profile, loaded, userData, userLoaded }) {
             <button
               id="rigist"
               className="ds-btn ds-btn-info ds-btn-sm ds-btn-outline ds-btn-block gap-2"
+              disabled
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -171,6 +174,7 @@ export default function Home({ profile, loaded, userData, userLoaded }) {
             <button
               id="rigist"
               className="ds-btn ds-btn-error ds-btn-outline ds-btn-sm ds-btn-block gap-2"
+              onClick={() => router.push("https://forms.gle/LpLsq5a9PTnYQ4mX9")}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -187,7 +191,7 @@ export default function Home({ profile, loaded, userData, userLoaded }) {
               <span className="text-md">รายงานปัญหาการใช้งาน</span>
             </button>
             <div className="w-full justify-center items-center text-center text-2xs flex space-x-2">
-              <span>MWIT SC Line Bot - V. 20220421.0</span>
+              <span>MWIT SC Line Bot - V. 20220608.0</span>
             </div>
           </div>
           <input

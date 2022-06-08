@@ -463,7 +463,7 @@
     "@liff/logger" "2.19.1"
     "@liff/util" "2.19.1"
 
-"@line/bot-sdk@^7.0.0":
+"@line/bot-sdk@^7.0.0", "@line/bot-sdk@^7.5.0":
   "integrity" "sha512-1PQW/tlg13olH93Ue+X4LwD4JvTK7JR5k59z2xM/rNNKWINbCigBgvwB0lwqnpQmehN7EvxolkN2aEPoSQ+JGw=="
   "resolved" "https://registry.npmjs.org/@line/bot-sdk/-/bot-sdk-7.5.0.tgz"
   "version" "7.5.0"
