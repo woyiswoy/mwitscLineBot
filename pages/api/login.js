@@ -1,6 +1,12 @@
 import clientPromise from "../../lib/mongodb";
 import { v1 as uuidv1 } from 'uuid';
 import cookie from 'cookie';
+const Client = require('@line/bot-sdk').Client;
+
+const lineClient = new Client({
+    channelAccessToken: process.env.LINE_ACCESS_TOKEN,
+    channelSecret: process.env.CHANNEL_SECRET
+});
 
 export default async function login(req, res) {
 
@@ -26,6 +32,10 @@ export default async function login(req, res) {
                 //     sameSite: 'strict',
                 //     path: '/'
                 // }));
+                lineClient.pushMessage(req.body.profile.userId, {
+                    type: 'text',
+                    text: 'ลงทะเบียนสำเร็จ รอติดตามข่าวสารจากโครงการ "กน.นกพิราบ" ได้เลยคับ!'
+                });
                 res.status(200).json({ ok: true });
             } else {
                 collection.findOne({ id: req.body.studentid }, (ferr, fres) => {
