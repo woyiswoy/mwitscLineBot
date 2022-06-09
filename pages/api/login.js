@@ -5,7 +5,7 @@ const Client = require('@line/bot-sdk').Client;
 
 const lineClient = new Client({
     channelAccessToken: process.env.LINE_ACCESS_TOKEN,
-    channelSecret: process.env.CHANNEL_SECRET
+    // channelSecret: process.env.LINE_CHANNEL_SECRET
 });
 
 export default async function login(req, res) {

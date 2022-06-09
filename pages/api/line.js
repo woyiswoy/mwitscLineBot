@@ -3,7 +3,7 @@ const Client = require('@line/bot-sdk').Client;
 
 const client = new Client({
     channelAccessToken: process.env.LINE_ACCESS_TOKEN,
-    channelSecret: process.env.CHANNEL_SECRET
+    // channelSecret: process.env.CHANNEL_SECRET
 });
 
 const cmdList = [{
