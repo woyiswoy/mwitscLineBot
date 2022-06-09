@@ -49,6 +49,26 @@ const cmdList = [{
         line: { $ne: null },
         role: "admin"
     }
+}, {
+    cmd: "msc",
+    name: "กน.",
+    filter: {
+        line: { $ne: null },
+        $or: [
+            { role: "sc" },
+            { role: "admin" },
+        ],
+    }
+}, {
+    cmd: "dsc",
+    name: "กน.",
+    filter: {
+        line: { $ne: null },
+        $or: [
+            { role: "dsc" },
+            { role: "admin" },
+        ],
+    }
 }];
 
 export default async function line(req, res) {

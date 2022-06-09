@@ -30,10 +30,10 @@ function MyApp({ Component, pageProps }) {
             })
             .catch((err) => {
               console.log("error", err);
-              // const profile = JSON.parse(
-              //   '{"userId":"Uf371e1f096b77a290a586216c462155f","displayName":"woyiswoy","statusMessage":"คนอย่างเทอมันแน่ มันแน่ตลอด","pictureUrl":"https://profile.line-scdn.net/0hL1CjaRuwEx5uEwdyKv1tYR5DEHRNYkoMF3deKlkVTi5bJwZMR3ReKwkRTStbIwYfRCcPKAhDSiZiAGR4cEXvKmkjTSlXJFxNQXRe-w"}'
-              // );
-              // setProfile(profile);
+              const profile = JSON.parse(
+                '{"userId":"Uf371e1f096b77a290a586216c462155f","displayName":"woyiswoy","statusMessage":"คนอย่างเทอมันแน่ มันแน่ตลอด","pictureUrl":"https://profile.line-scdn.net/0hL1CjaRuwEx5uEwdyKv1tYR5DEHRNYkoMF3deKlkVTi5bJwZMR3ReKwkRTStbIwYfRCcPKAhDSiZiAGR4cEXvKmkjTSlXJFxNQXRe-w"}'
+              );
+              setProfile(profile);
               return profile;
             })
             .then((profile) => {
@@ -79,7 +79,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div
-        className="transition duration-300 min-h-screen container mx-auto space-y-7 font-Kodchasan"
+        className="transition duration-300 min-h-screen container mx-auto font-Kodchasan"
         data-theme="pastel"
       >
         <Navbar {...pageProps}></Navbar>

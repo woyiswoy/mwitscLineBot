@@ -50,7 +50,7 @@ export default function Home({ liff, profile, loaded, userData }) {
   };
 
   return (
-    <div className="px-8">
+    <div className="px-8 pt-8">
       {loaded && profile ? (
         <div className="space-y-2">
           <div className="items-center text-center rounded-lg">
@@ -155,7 +155,8 @@ export default function Home({ liff, profile, loaded, userData }) {
             <button
               id="rigist"
               className="ds-btn ds-btn-info ds-btn-sm ds-btn-outline ds-btn-block gap-2"
-              disabled
+              // disabled
+              onClick={() => router.push("/howtouse")}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
