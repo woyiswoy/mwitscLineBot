@@ -39,7 +39,10 @@ export default function HowToUse({ profile, loaded, userData }) {
       {loaded ? (
         <div className=" space-y-4">
           {howtoContent.map((howtoItem, howtoIdx) => (
-            <div className="ds-card ds-card-compact w-full bg-base-100 border-2">
+            <div
+              className="ds-card ds-card-compact w-full bg-base-100 border-2"
+              key={howtoIdx}
+            >
               <div className="ds-card-body font-IBMPlex">
                 <h2 className="ds-card-title text-lg">{howtoItem.text}</h2>
                 {howtoItem.desc ? <p>{howtoItem.desc}</p> : <></>}
