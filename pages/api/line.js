@@ -118,6 +118,21 @@ async function handleEvent(event) {
                     return client.multicast(resp.map(d => d.line), [{ type: 'text', text }])
                 })
                 .then(() => client.replyMessage(replyToken, { type: 'text', text: 'ส่งข้อความไปยัง ' + cmdInfo.name + ' สำเร็จ!' }));
+        } else if (((source.type === 'group' && source.groupId === 'Cb75d124290e54ba84bb5f512af07c08d') || (source.type === 'user' && source.userId === 'Uf371e1f096b77a290a586216c462155f')) && message.text.substring(0, 1) === '&') {
+            const cmd = message.text.substring(1);
+            if (cmd === "stat") {
+                collection.find({ linePf: { $exists: true } })
+                    .toArray()
+                    .then(resp => {
+                        client.replyMessage(replyToken, {
+                            type: 'text',
+                            text: '-- STATS --\nRegistered users: ' + resp.length.toString() + ' / 723' +
+                                '\nGen 30: ' + resp.filter(x => x.gen === 30).length.toString() + ' / 242' +
+                                '\nGen 31: ' + resp.filter(x => x.gen === 31).length.toString() + ' / 240' +
+                                '\nGen 31: ' + resp.filter(x => x.gen === 32).length.toString() + ' / 241'
+                        })
+                    });
+            }
         }
     }
 
