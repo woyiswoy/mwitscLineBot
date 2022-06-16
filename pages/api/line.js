@@ -129,7 +129,7 @@ async function handleEvent(event) {
                             text: '-- STATS --\nRegistered users: ' + resp.length.toString() + ' / 723' +
                                 '\nGen 30: ' + resp.filter(x => x.gen === 30).length.toString() + ' / 242' +
                                 '\nGen 31: ' + resp.filter(x => x.gen === 31).length.toString() + ' / 240' +
-                                '\nGen 31: ' + resp.filter(x => x.gen === 32).length.toString() + ' / 241'
+                                '\nGen 32: ' + resp.filter(x => x.gen === 32).length.toString() + ' / 241'
                         })
                     });
             }
