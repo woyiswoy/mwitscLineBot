@@ -14,6 +14,7 @@ const cmdList = [{
         $or: [
             { gen: 30 },
             { role: "admin" },
+            { role: "dev" },
         ],
     }
 }, {
@@ -24,6 +25,7 @@ const cmdList = [{
         $or: [
             { gen: 31 },
             { role: "admin" },
+            { role: "dev" },
         ],
     }
 }, {
@@ -34,6 +36,7 @@ const cmdList = [{
         $or: [
             { gen: 32 },
             { role: "admin" },
+            { role: "dev" },
         ],
     }
 }, {
@@ -47,7 +50,10 @@ const cmdList = [{
     name: "แอดมิน",
     filter: {
         line: { $ne: null },
-        role: "admin"
+        $or: [
+            { role: "admin" },
+            { role: "dev" },
+        ],
     }
 }, {
     cmd: "msc",
@@ -57,6 +63,7 @@ const cmdList = [{
         $or: [
             { role: "sc" },
             { role: "admin" },
+            { role: "dev" },
         ],
     }
 }, {
@@ -67,7 +74,15 @@ const cmdList = [{
         $or: [
             { role: "dsc" },
             { role: "admin" },
+            { role: "dev" },
         ],
+    }
+}, {
+    cmd: "dev",
+    name: "dev",
+    filter: {
+        line: { $ne: null },
+        role: "dev",
     }
 }];
 
