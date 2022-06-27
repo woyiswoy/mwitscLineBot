@@ -136,7 +136,7 @@ export default function Home({ liff, profile, loaded, userData }) {
               id="rigist"
               className="ds-btn ds-btn-secondary ds-btn-block gap-2"
               onClick={() => router.push("/report")}
-              disabled
+              // disabled
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
